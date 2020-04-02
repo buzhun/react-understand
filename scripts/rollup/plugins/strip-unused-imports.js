@@ -6,11 +6,11 @@
  */
 'use strict';
 
-module.exports = function stripUnusedImports(pureExternalModules) {
+module.exports = function stripUnusedImports(moduleSideEffects) {
   return {
     name: 'scripts/rollup/plugins/strip-unused-imports',
     renderChunk(code) {
-      pureExternalModules.forEach(module => {
+      moduleSideEffects.forEach(module => {
         // Ideally this would use a negative lookbehind: (?<!= *)
         // But this isn't supported by the Node <= 8.9.
         // So instead we try to handle the most common cases:

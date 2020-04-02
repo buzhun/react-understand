@@ -324,7 +324,7 @@ function getPlugins(
   bundleType,
   globalName,
   moduleType,
-  pureExternalModules,
+  moduleSideEffects,
   bundle
 ) {
   const findAndRecordErrorCodes = extractErrorCodes(errorCodeOpts);
@@ -412,7 +412,7 @@ function getPlugins(
       ),
     // HACK to work around the fact that Rollup isn't removing unused, pure-module imports.
     // Note that this plugin must be called after closure applies DCE.
-    isProduction && stripUnusedImports(pureExternalModules),
+    isProduction && stripUnusedImports(moduleSideEffects),
     // Add the whitespace back if necessary.
     shouldStayReadable &&
       prettier({
@@ -554,14 +554,14 @@ async function createBundle(bundle, bundleType) {
   }
 
   const importSideEffects = Modules.getImportSideEffects();
-  const pureExternalModules = Object.keys(importSideEffects).filter(
+  const moduleSideEffects = Object.keys(importSideEffects).filter(
     module => !importSideEffects[module]
   );
 
   const rollupConfig = {
     input: resolvedEntry,
     treeshake: {
-      pureExternalModules,
+      moduleSideEffects,
     },
     external(id) {
       const containsThisModule = pkg => id === pkg || id.startsWith(pkg + '/');
@@ -581,7 +581,7 @@ async function createBundle(bundle, bundleType) {
       bundleType,
       bundle.global,
       bundle.moduleType,
-      pureExternalModules,
+      moduleSideEffects,
       bundle
     ),
     output: {

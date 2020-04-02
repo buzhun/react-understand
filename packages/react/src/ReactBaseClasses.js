@@ -54,7 +54,9 @@ Component.prototype.isReactComponent = {};
  * @final
  * @protected
  */
+
 Component.prototype.setState = function(partialState, callback) {
+  debugger;
   invariant(
     typeof partialState === 'object' ||
       typeof partialState === 'function' ||
@@ -62,6 +64,7 @@ Component.prototype.setState = function(partialState, callback) {
     'setState(...): takes an object of state variables to update or a ' +
       'function which returns an object of state variables.',
   );
+
   this.updater.enqueueSetState(this, partialState, callback, 'setState');
 };
 

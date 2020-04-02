@@ -5,10 +5,30 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.js"></script>
     <div id="container"></div>
     <script type="text/babel">
+      class Square extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            value: 'hello',
+          };
+        }
+
+        componentDidMount(){
+          this.setState({value:'world'})
+        }
+
+        render() {
+          return (
+            <button
+              className="square"
+            >
+              {this.state.value}
+            </button>
+          );
+        }
+      }
       ReactDOM.render(
-        <h1>Hello World!</h1>,
-        document.getElementById('container')
-      );
+      <Square/>, document.getElementById('container') );
     </script>
   </body>
 </html>
